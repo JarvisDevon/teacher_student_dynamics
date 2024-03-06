@@ -36,7 +36,7 @@ class HMMMultiTeacherRunner(base_network_runner.BaseNetworkRunner):
 
         super().__init__(config, unique_id)
         self._logger.info("Setting up hidden manifold network runner...")
-
+ 
     def _student_weighted_feature_matrices(self):
         # DxN matrix multiplied by NxK matrix -> DxK matrix
         return [
@@ -598,7 +598,6 @@ class HMMMultiTeacherRunner(base_network_runner.BaseNetworkRunner):
 
             print(f"Task Latent: {d}")
             print(f"Total Latent: {self._latent_dimension}")
-
             # SO(N) rotation matrix
             rotation_matrix = torch.from_numpy(
                 stats.ortho_group.rvs(self._input_dimension)
@@ -618,6 +617,7 @@ class HMMMultiTeacherRunner(base_network_runner.BaseNetworkRunner):
                 size=(self._latent_dimension, self._latent_dimension),
                 device=self._device,
             )
+
             # Covariance matrix of base features
             Ω_tilde = base_feature_matrix.mm(base_feature_matrix.T) / (
                 int(self._latent_dimension)

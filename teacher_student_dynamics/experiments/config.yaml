@@ -37,7 +37,6 @@ data:
         variance: 1
         latent_dimension: 200
         activation: sign # linear, scaled_erf or sign
-
         construction: domine_ssm # goldt or domine_ssm
 
         feature_matrix_correlations: [0.6]
