@@ -177,7 +177,8 @@ class HiddenManifold(base_data_module.BaseData):
         ).to(self._device)
         mixed_feature_matrix = (
             gamma**2 * self._feature_matrix
-            + np.sqrt(1 - gamma**2) * self._surrogate_feature_matrices[surrogate_index]
+            + np.sqrt(1 - gamma**2)
+            * self._surrogate_feature_matrices[surrogate_index]
         )
         batch = self._activation(
             torch.matmul(latent, mixed_feature_matrix.T)
