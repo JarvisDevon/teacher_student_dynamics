@@ -21,7 +21,7 @@ class Config(base_configuration.BaseConfiguration):
         in the configuration.
         """
         num_tasks = len(self.feature_matrix_correlations)+1
-        d = self.latent_dimension/(num_tasks - np.sum(self.feature_matrix_correlations))
+        d = self.latent_dimension/num_tasks
         if self.run_ode:
             assert (
                 self.implementation == constants.CPP

@@ -2,14 +2,14 @@ seed: 0
 gpu_id: 0 # None for CPU
 
 runner:
-    run_ode: True
+    run_ode: False
     run_network: True
 
 logging:
-    checkpoint_frequency: 10000
-    stdout_frequency: 10000
+    checkpoint_frequency: 1000
+    stdout_frequency: 1000
 
-    overlap_frequency: 10000 # save in standard logging format
+    overlap_frequency: 1000 # save in standard logging format
     save_overlap_frequency: 1000 # save into ode-readable format (for debugging) ensure this is multiple of input_dimension * timestep
     ode_log_frequency: 1000 # ensure this is multiple of input_dimension * timestep
 
@@ -35,12 +35,12 @@ data:
     hidden_manifold:
         mean: 0
         variance: 1
-        latent_dimension: 200
-        activation: sign # linear, scaled_erf or sign
+        latent_dimension: 200 #100
+        activation: linear # scaled_erf or sign
 
         construction: domine_ssm # goldt or domine_ssm
 
-        feature_matrix_correlations: [0.6]
+        feature_matrix_correlations: [1.0]
 
     noise_to_student_input:
     # list of lists dim 2 (one per teacher)
@@ -57,14 +57,14 @@ data:
     - []
 
 testing:
-    test_batch_size: 10000
-    test_frequency: 10000
+    test_batch_size: 100
+    test_frequency: 100
 
 training:
     train_batch_size: 1
-    total_training_steps: 1000000
+    total_training_steps: 10000000
     optimiser: sgd
-    learning_rate: 0.2
+    learning_rate: 4.0
     loss_function: mse
     train_hidden_layer: True
     train_head_layer: True
@@ -75,11 +75,11 @@ training:
     freeze_units: [0, 0]
 
 networks:
-    input_dimension: 1000
+    input_dimension: 1000 #10000
     output_dimension: 1
     nonlinearity: scaled_erf
     # student
-    student_hidden: 2
+    student_hidden: 2 #4
     student_bias: False
     student_initialisation_std: 0.001
     multi_head: True #False
@@ -87,25 +87,25 @@ networks:
     num_teachers: 2
     teacher_hidden: 2
     teacher_bias: False
-    teacher_heads_one: True # make all teacher head weights 1 (like fig. 3 of HMM paper), takes precident over unit_norm
+    teacher_heads_one: True  #False # make all teacher head weights 1 (like fig. 3 of HMM paper)
     unit_norm_teacher_head: True
     normalise_teachers: True
     teacher_initialisation_std: 1.
     teacher_configuration: rotation # rotation, identical, node_sharing
 
     rotation_teachers:
-        feature_rotation_alpha: 0.
-        readout_rotation_alpha: 0.
+        feature_rotation_alpha: 0.0
+        readout_rotation_alpha: 0.0
 
     node_sharing_teachers:
         num_shared_nodes: 1
-        feature_rotation_alpha: 0.
+        feature_rotation_alpha: 0.0
 
 curriculum:
     # condition on which to switch task (fixed_period, switch_steps, or loss_thresholds)
     stopping_condition: switch_steps              
   
-    switch_steps: [500000]
+    switch_steps: [5000000]
     fixed_period: 1
     # loss threshold under which teacher is changed
     loss_thresholds: [0.0001]
@@ -114,6 +114,8 @@ replay:
     schedule:  # periodic or None for no replay
 
     strategy: gamma # uniform or gamma (hmm)
+
+    strategy_num: 2
     
     periodic_replay:
         # how often to interleave previous examples
@@ -123,4 +125,3 @@ replay:
 
     gamma_replay:
         gamma: 0.5
-    
