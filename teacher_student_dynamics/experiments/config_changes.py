@@ -11,13 +11,18 @@ import numpy as np
 #}
 #CONFIG_CHANGES = {**param_config_changes, **oparam_config_changes}
 
+#CONFIG_CHANGES = {
+#    f"latent_dimension_{a}": [
+#{           "data": {"hidden_manifold": {"latent_dimension": int(a)}},
+#        }
+#    ]
+#    for a in np.linspace(400,800,10)
+#}
+
 CONFIG_CHANGES = {
-    f"learning_rate_{lr}_latent_dimension_{N}": [
-{           "training": {"learning_rate": float(lr)},
-            "data": {"hidden_manifold": {"latent_dimension": int(N)}},
+    f"feature_rotation_alpha_{a}": [
+{           "networks": {"rotation_teachers": {"feature_rotation_alpha": float(a)}},
         }
     ]
-    for lr, N, in itertools.product(
-       np.linspace(1.0,5.0,5),np.linspace(200,1000,9)
-    )
+    for a in [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
 }

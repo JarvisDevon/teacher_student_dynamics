@@ -11,3 +11,6 @@ teacher_student_dynamics/experiments/results/
 *.out
 eigen*
 run.sh
+*.nfs*
+*config_*.yaml
+*config_changes_*.py

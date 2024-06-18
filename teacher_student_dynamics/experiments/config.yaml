@@ -2,7 +2,7 @@ seed: 0
 gpu_id: 0 # None for CPU
 
 runner:
-    run_ode: True
+    run_ode: False
     run_network: True
 
 logging:
@@ -29,17 +29,17 @@ data:
 
     iid_gaussian:
         mean: 0
-        variance: 1
+        variance: 1.0
         dataset_size: inf
 
     hidden_manifold:
         mean: 0
-        variance: 1
-        latent_dimension: 200
-        activation: sign # linear, scaled_erf or sign
+        variance: 1.0
+        latent_dimension: 800 #200
+        activation: linear # linear, scaled_erf or sign, try see sign func for consistentcy with latent dim varying experiment
         construction: domine_ssm # goldt or domine_ssm
 
-        feature_matrix_correlations: [0.6]
+        feature_matrix_correlations: [1.0] #0.6 # Percentage of Eigendimensions shared between tasks, all relative to the first task
 
     noise_to_student_input:
     # list of lists dim 2 (one per teacher)
@@ -63,7 +63,7 @@ training:
     train_batch_size: 1
     total_training_steps: 1000000
     optimiser: sgd
-    learning_rate: 0.2
+    learning_rate: 0.01 #0.1
     loss_function: mse
     train_hidden_layer: True
     train_head_layer: True
@@ -84,7 +84,7 @@ networks:
     multi_head: True #False
     # teacher(s)
     num_teachers: 2
-    teacher_hidden: 2
+    teacher_hidden: 1
     teacher_bias: False
     teacher_heads_one: True # make all teacher head weights 1 (like fig. 3 of HMM paper), takes precident over unit_norm
     unit_norm_teacher_head: True
